@@ -1,38 +1,37 @@
 import App from '../components/App';
 import {Moment} from "../api.helpers/models";
 import {serverApi} from "../api.helpers/server.api";
-import {clientApi} from "../api.helpers/client.api";
 import {useState, useEffect} from "react";
 import { GetServerSideProps } from 'next';
+import useSWR from 'swr'
+import clientApi from "../api.helpers/client.api";
 
 
-// export default function Home() {
-//
-//     const [dbPhotos, setDbPhotos] = useState<Moment[]>([]);
+const fetcher = (key:string) => {  return   clientApi.getPhotos()}
 
 export default function Home(props : {photos : Moment[]}) {
 
-    const [dbPhotos, setDbPhotos] = useState(props.photos);
 
-    // useEffect(() => {
-    //         clientApi.getPhotos().then(photosArr => {
-    //                 setDbPhotos(photosArr);
-    //             }
-    //         );
-    //     }, []
-    // );
+   // const fetcher = (url:string) => fetch(url).then((res) => res.json());
+
+    const { data, error, isLoading } = useSWR('/api/getPhotos',fetcher )
+    console.log(`error: ${error}`)
+
+    if (error) return <div>failed to load</div>
+    if (isLoading) return <div>loading...</div>
+
     
     return (
       <div>
-        <App dbPhotos={dbPhotos} />
+        <App dbPhotos={data ?? [] } />
       </div>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-    const photos = await serverApi.getAllPhotos();
-    console.log(photos)
-    return {
-        props: {photos: photos}
-    }
-}
+// export const getServerSideProps: GetServerSideProps = async () => {
+//     const photos = await serverApi.getAllPhotos();
+//     console.log(photos)
+//     return {
+//         props: {photos: photos}
+//     }
+// }
