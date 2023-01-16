@@ -12,6 +12,7 @@ export default function Gallery(props : {photos : Moment[],checkedPhotos : Momen
 
     return (
         <div className="width50">
+            <div className="top-label" >CHOOSE IMAGE</div>
             <Filters/>
             <PhotosGrid photos={displayPhotos} updateApcArray={props.updateApcArray} checkedPhotos={props.checkedPhotos}/>
         </div>

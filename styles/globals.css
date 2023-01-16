@@ -5,3 +5,15 @@
 .checked img{
     border: 6px solid blue;
 }
+
+.top-label{
+    opacity: 1;
+    color: rgba(0,0,0,1);
+    font-family: "OpenSansRoman-Light";
+    font-size: 36px;
+    font-weight: 300;
+    font-style: normal;
+    letter-spacing: 0px;
+    text-align: left;
+    text-transform: uppercase;
+}

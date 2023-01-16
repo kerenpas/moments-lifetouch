@@ -16,18 +16,14 @@ const thisLife = axios.create({
     }
 })
 
-const thisLifeParams1 = ()  : object => {
-    // const tokenId = testApi.test();
-    const thisLifeParams ={
-        method : "moment.getRecentMomentsForLifetouch",
-        params : [
-            "eyJraWQiOiJpY1A4WExhT3B3cVlxQkdOXC9Bd1V1TFwvRU9BQVFHXC9Ic0hpSGZCMjFBbERFPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIxNWU3YWY1OS03N2ZlLTQ1OGMtYjk5ZC01ZjI5ODEyMjUzMTYiLCJjb2duaXRvOmdyb3VwcyI6WyJDb2duaXRvTmV3U2lnbnVwIl0sInByZXNjaG9vbHNfdWlkIjoiYTZiMDdjMDUtODY1MS00ZTZkLWJiMGItZTkxOGYzYTVhZTMxIiwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfVG1Iem9RNjlqIiwiY29nbml0bzp1c2VybmFtZSI6IjE1ZTdhZjU5LTc3ZmUtNDU4Yy1iOTlkLTVmMjk4MTIyNTMxNiIsImdpdmVuX25hbWUiOiJNYXJhIiwib3JpZ2luX2p0aSI6ImUzMDU0MjVlLTJiZjgtNDNhMi1iY2M2LWU3M2ViMzk0M2FlZSIsImF1ZCI6InQ4b2lpZjUybWVjZTZibGVlYXMycG9mMG4iLCJ1c2VyX3R5cGUiOiJBQ1QiLCJldmVudF9pZCI6Ijg5YTExMzk4LWMxY2ItNDRjMy1iMWEzLWE2YzgwMmE0MDNhNSIsInNmbHlfdWlkIjoiMDI0MDYwNjA1MjU5IiwidG9rZW5fdXNlIjoiaWQiLCJzY29wZSI6InByb2ZpbGUgdXNlciIsImF1dGhfdGltZSI6MTY3MzQzODg1MywiZXhwIjoxNjczNDQyNDUzLCJpYXQiOjE2NzM0Mzg4NTMsImZhbWlseV9uYW1lIjoiTWNGYWtlcnRvbiIsImp0aSI6IjlkZmFiMGExLTI5YTQtNGVkYy1iZTk2LWRhMGExNTNlYmJhNSIsImVtYWlsIjoiZmFrZXllbWFpbEB3aGF0ZXZlci5jb20ifQ.DOJJOUvIqAa2wL9HK2rU_CzfyBqpqnDI5swfV38Fot5PUhLxeF-qAc9qUPB8V_8IedC0feZ4BDhwlnYhy-ado4Xx7MCnSbSChpn1XIrzSPUv8Vqaum2B4UYNeqc4cst5l0GIb8I8sxUbasChMuowGymFnpeWr4aW8gfEeoDyRbgEqfrGLG8HWF-ssuOL4i-RK9jJYgII_rM5KICt727hpSgMpJbv8DeTLkiB8uxje8rd3Z1FwzugJzV_ff_woFDE1rf85St-dSlheUnU4L0u-3r0ZKEhfChY5FPbJKhAtwHhMT3glzZXZITmyrp8qR0I9mBf5Xdk7tHQfZ1zjvGVqg",
-            200,
-            null,
-            true],
-        id: null
-    }
-    return thisLifeParams;
+const thisLifeParams1 = {
+    method: "moment.getRecentMomentsForLifetouch",
+    params: [
+        "eyJraWQiOiJpY1A4WExhT3B3cVlxQkdOXC9Bd1V1TFwvRU9BQVFHXC9Ic0hpSGZCMjFBbERFPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIxNWU3YWY1OS03N2ZlLTQ1OGMtYjk5ZC01ZjI5ODEyMjUzMTYiLCJjb2duaXRvOmdyb3VwcyI6WyJDb2duaXRvTmV3U2lnbnVwIl0sInByZXNjaG9vbHNfdWlkIjoiYTZiMDdjMDUtODY1MS00ZTZkLWJiMGItZTkxOGYzYTVhZTMxIiwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfVG1Iem9RNjlqIiwiY29nbml0bzp1c2VybmFtZSI6IjE1ZTdhZjU5LTc3ZmUtNDU4Yy1iOTlkLTVmMjk4MTIyNTMxNiIsImdpdmVuX25hbWUiOiJNYXJhIiwib3JpZ2luX2p0aSI6IjliYWUxYzlmLTdhOGItNDdjNy04MGE2LWZjN2U0NmJkY2EzYSIsImF1ZCI6InQ4b2lpZjUybWVjZTZibGVlYXMycG9mMG4iLCJ1c2VyX3R5cGUiOiJBQ1QiLCJldmVudF9pZCI6IjlmMmFhMzFjLTk2YzMtNDEyYi1hNDJkLWZjOGY1ZDY1MGYxNyIsInNmbHlfdWlkIjoiMDI0MDYwNjA1MjU5IiwidG9rZW5fdXNlIjoiaWQiLCJzY29wZSI6InByb2ZpbGUgdXNlciIsImF1dGhfdGltZSI6MTY3MzUyNTYyMywiZXhwIjoxNjczNTI5MjIzLCJpYXQiOjE2NzM1MjU2MjMsImZhbWlseV9uYW1lIjoiTWNGYWtlcnRvbiIsImp0aSI6ImI2NTQxYzYwLWJjNjktNDk4Mi05ZGE3LTVmNDMzYWE2Njc3MyIsImVtYWlsIjoiZmFrZXllbWFpbEB3aGF0ZXZlci5jb20ifQ.IPJUsS_MtOYPOiqYwkIqUtiE2r_3i7gUx2ZauWMsYpn0RgA-c3Gbc90zAnMGdmZ250D2srLwbEMsf94uhQRozjc-u5pQln28aocBaWcc1l7XIdn2Bjs1sqtVIiF-AOHlLZbMaugbUdVSbQ93-ZvoGsUQngMuwy-agiqe87GY4WJqee0MeJ3UA8hc6S_w0bIUZJkfbdh1-NAcbLcOet7XdxpuEXg6MX8QqvZAGax2nTDsMGc4tQVCOFPf3GfmjXhzmXfZ4B6WfGqDi1gzahe_p_wgVGNeM-fSZ7eX56_hiRRzDTTcXmmnD7vtj4lSeak8UPb9iIi_k85h3QS5XO3D3A",
+        200,
+        null,
+        true],
+    id: null
 }
 
 const loginCall = axios.create({
@@ -57,7 +53,8 @@ export const serverApi = {
         return data.AuthenticationResult.IdToken;
     },
     getAllPhotos: async (): Promise<Moment[]> => {
-        const params = thisLifeParams1();
+        const params = thisLifeParams1;
+        console.log(params);
         const {data} = await thisLife.post('?method=moment.getRecentMomentsForLifetouch', params);
         return data.result.payload.moments;
     }

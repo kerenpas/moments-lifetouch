@@ -7,20 +7,13 @@ import useSWR from 'swr'
 import clientApi from "../api.helpers/client.api";
 
 
-const fetcher = (key:string) => {  return   clientApi.getPhotos()}
+const fetcher = (key:string) => {  return clientApi.getPhotos()}
 
 export default function Home(props : {photos : Moment[]}) {
 
-
-   // const fetcher = (url:string) => fetch(url).then((res) => res.json());
-
-    const { data, error, isLoading } = useSWR('/api/getPhotos',fetcher )
-    console.log(`error: ${error}`)
-
+    const { data, error, isLoading } = useSWR('getPhotos',fetcher )
     if (error) return <div>failed to load</div>
     if (isLoading) return <div>loading...</div>
-
-    
     return (
       <div>
         <App dbPhotos={data ?? [] } />
