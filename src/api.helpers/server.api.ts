@@ -1,11 +1,29 @@
 import axios from "axios";
-import {Moment} from "./models";
+import {LoginJWTData, Moment} from "./models";
+import {CookieValueTypes} from "cookies-next/src/types";
+import {jwtToken} from "../Utils";
+import {OptionsType} from "cookies-next/lib/types";
 
 const iam = axios.create({
     baseURL: 'https://iam.shutterfly.com/',
     headers: {
+        'Accept': '*/*',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
         'Content-Type': 'application/x-amz-json-1.1',
-        'X-Amz-Target': 'AWSCognitoIdentityProviderService.InitiateAuth'
+        'X-Amz-Target': 'AWSCognitoIdentityProviderService.InitiateAuth',
+        'Origin': 'https://accounts.shutterfly.com',
+        'Pragma': 'no-cache',
+        'Sec-Fetch-Dest': 'empty',
+        'Sec-Fetch-Mode': 'cors',
+        'Sec-Fetch-Site': 'same-site',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+        'X-Amz-User-Agent': 'aws-amplify/5.0.4 js',
+        'sec-ch-ua': '"Not?A_Brand";v="8", "Chromium";v="108", "Google Chrome";v="108"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"macOS"',
+        'Cookie': 'ak_bmsc=BC7FDD044F87ACCC5EE46C0261780123~000000000000000000000000000000~YAAQG2IoF2G36TqFAQAAm0klkRL37ylqwhBjKRavdohLWyOpHf12ziqdjPzNfFpFXtgwY+63ksFQuy0r/MOmRCk83W+OlcF6+TMTcgFFd8r/tlapNBN2lR5VeThXmdAGsl60yNWCNuwWiUifim3xsjaz+2w2eBQPb2FT/JESQuBs0Ku7EqsH0PRKN49cjo4tJbXQF/5ObIJuaabFxM4+Mjo7IZrcgW0PrEKqnuXu6eecZAymKpSGnAsGVgrGTbG2eTRckVrB+1lXULvd6AGYs/BBH9PE9/37QRip2PHDHBjER8byibNkQ5vBsb0y+woQG0UyWYAGMInCAx6CtiXXhRAxMo+UHqiSVicllZG5yW2POuw5UT+ABnoLT3NMGDMC'
     }
 })
 
@@ -16,46 +34,61 @@ const thisLife = axios.create({
     }
 })
 
-const thisLifeParams1 = {
-    method: "moment.getRecentMomentsForLifetouch",
-    params: [
-        "eyJraWQiOiJpY1A4WExhT3B3cVlxQkdOXC9Bd1V1TFwvRU9BQVFHXC9Ic0hpSGZCMjFBbERFPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIxNWU3YWY1OS03N2ZlLTQ1OGMtYjk5ZC01ZjI5ODEyMjUzMTYiLCJjb2duaXRvOmdyb3VwcyI6WyJDb2duaXRvTmV3U2lnbnVwIl0sInByZXNjaG9vbHNfdWlkIjoiYTZiMDdjMDUtODY1MS00ZTZkLWJiMGItZTkxOGYzYTVhZTMxIiwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfVG1Iem9RNjlqIiwiY29nbml0bzp1c2VybmFtZSI6IjE1ZTdhZjU5LTc3ZmUtNDU4Yy1iOTlkLTVmMjk4MTIyNTMxNiIsImdpdmVuX25hbWUiOiJNYXJhIiwib3JpZ2luX2p0aSI6IjliYWUxYzlmLTdhOGItNDdjNy04MGE2LWZjN2U0NmJkY2EzYSIsImF1ZCI6InQ4b2lpZjUybWVjZTZibGVlYXMycG9mMG4iLCJ1c2VyX3R5cGUiOiJBQ1QiLCJldmVudF9pZCI6IjlmMmFhMzFjLTk2YzMtNDEyYi1hNDJkLWZjOGY1ZDY1MGYxNyIsInNmbHlfdWlkIjoiMDI0MDYwNjA1MjU5IiwidG9rZW5fdXNlIjoiaWQiLCJzY29wZSI6InByb2ZpbGUgdXNlciIsImF1dGhfdGltZSI6MTY3MzUyNTYyMywiZXhwIjoxNjczNTI5MjIzLCJpYXQiOjE2NzM1MjU2MjMsImZhbWlseV9uYW1lIjoiTWNGYWtlcnRvbiIsImp0aSI6ImI2NTQxYzYwLWJjNjktNDk4Mi05ZGE3LTVmNDMzYWE2Njc3MyIsImVtYWlsIjoiZmFrZXllbWFpbEB3aGF0ZXZlci5jb20ifQ.IPJUsS_MtOYPOiqYwkIqUtiE2r_3i7gUx2ZauWMsYpn0RgA-c3Gbc90zAnMGdmZ250D2srLwbEMsf94uhQRozjc-u5pQln28aocBaWcc1l7XIdn2Bjs1sqtVIiF-AOHlLZbMaugbUdVSbQ93-ZvoGsUQngMuwy-agiqe87GY4WJqee0MeJ3UA8hc6S_w0bIUZJkfbdh1-NAcbLcOet7XdxpuEXg6MX8QqvZAGax2nTDsMGc4tQVCOFPf3GfmjXhzmXfZ4B6WfGqDi1gzahe_p_wgVGNeM-fSZ7eX56_hiRRzDTTcXmmnD7vtj4lSeak8UPb9iIi_k85h3QS5XO3D3A",
-        200,
-        null,
-        true],
-    id: null
+const thisLifeParams = (token: CookieValueTypes) => {
+    return {
+        method: "moment.getRecentMomentsForLifetouch",
+        params: [
+            token,
+            200,
+            null,
+            true],
+        id:null
+    }
+
 }
 
-const loginCall = axios.create({
-    baseURL: 'https://iam.shutterfly.com',
-    headers: {
-        'content-type': 'application/x-amz-json-1.1',
-        'x-amz-target': 'AWSCognitoIdentityProviderService.InitiateAuth'
-    }
-})
 
+    export const serverApi = {
+        login: async (user: string, password: string, optionsType: OptionsType): Promise<LoginJWTData|string> => {
+            const aimData = '{\n    "AuthFlow": "USER_PASSWORD_AUTH",\n   ' +
+                ' "ClientId": "t8oiif52mece6bleeas2pof0n",\n   ' +
+                ' "AuthParameters": {\n       ' +
+                ` "USERNAME": "${user}",\n       ` +
+                ` "PASSWORD": "${password}"\n    }\n}`
+            try {
+                console.log(`call to serverApi  login keren keren`);
+                const result = await iam.post('/', aimData);
+                const data = result.data
+                console.log(`call to iam.post the rsult is ${result.status} `);
+                console.log(`call to iam.post the rsult is ${data} `);
+                console.log("call to iam.post");
+                console.log(`The Login result data is ${data}`);
+                if (typeof data.AuthenticationResult === "undefined") {
+                    return data.message;
+                }
+                console.log(`data.AuthenticationResult.IdToken: ${data.AuthenticationResult.IdToken}`);
+                const loginJWTData: LoginJWTData = {
+                    ExpiresIn: data.AuthenticationResult.ExpiresIn,
+                    IdToken: data.AuthenticationResult.IdToken,
+                    authTime: Date.now() / 1000 | 0
+                }
+                jwtToken.setTokenDataInCookies(loginJWTData, optionsType)
+                return loginJWTData
+            } catch (e:any) {
+                console.error(`error on login method ${e}`)
+                return "Error"
+            }
 
-        const aimData = '{\n    "AuthFlow": "USER_PASSWORD_AUTH",\n   ' +
-            ' "ClientId": "t8oiif52mece6bleeas2pof0n",\n   ' +
-            ' "AuthParameters": {\n       ' +
-            ' "USERNAME": "fakeyemail@whatever.com",\n       ' +
-            ' "PASSWORD": "12345678aB!"\n    }\n}'
-
-
-export const serverApi = {
-            
-    login: async (user?: string, password?: string): Promise<string> => {
-        const {data} = await iam.post('/', aimData);
-        console.log(data.AuthenticationResult.IdToken);
-        if (typeof data.AuthenticationResult === "undefined") {
-            return data.message;
+        },
+        getAllPhotos: async (token: CookieValueTypes): Promise<Moment[] | string> => {
+            console.log(`getAllPhotos token ${token}`)
+            const params = thisLifeParams(token);
+            console.log(`getAllPhotos params: ${JSON.stringify(params)}`);
+            const {data, status} = await thisLife.post('?method=moment.getRecentMomentsForLifetouch', params);
+            console.log(`getAllPhotos status: ${status}`);
+            debugger
+            console.log(`getAllPhotos data: ${JSON.stringify(data)}`);
+            console.log(`getAllPhotos data.result: ${JSON.stringify(data.result)}`);
+            return data.result.payload.moments;
         }
-        return data.AuthenticationResult.IdToken;
-    },
-    getAllPhotos: async (): Promise<Moment[]> => {
-        const params = thisLifeParams1;
-        console.log(params);
-        const {data} = await thisLife.post('?method=moment.getRecentMomentsForLifetouch', params);
-        return data.result.payload.moments;
     }
-}

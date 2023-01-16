@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Moment } from "./models";
+import {LoginJWTData, Moment} from "./models";
 
 
 
@@ -7,15 +7,16 @@ const instance = axios.create({
         baseURL: "/api"
     })
 
-export const clientApi = {
-    login : async (user? : string, password? : string) : Promise<String> =>{
+const clientApi = {
+    login : async (user? : string, password? : string) : Promise<LoginJWTData|string> =>{
         const {data} = await instance.post('login', {user, password});
         return data;
     },
     getPhotos :  async () : Promise<Moment[]> =>{
-        const {data} = await instance.post('getPhotos');
-        return data;
+        //TODO: Keren check should be instance.get
+        const {data} = await instance.post('getPhotos')
+        return data
     }
 }
 
-export default clientApi;
+export default clientApi
